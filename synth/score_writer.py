@@ -48,6 +48,7 @@ class ScoreWriter(object):
     def write_score_with_freq(self, score):
         if not isinstance(score, list):
             raise TypeError("Score must be a list")
+        self.clear_score()
         for freq, duration in score:
             if not isinstance(freq, float) and not isinstance(freq, int):
                 raise TypeError("Frequency must be a float or integer")

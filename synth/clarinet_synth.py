@@ -3,8 +3,8 @@ from typing import Generator
 import numpy as np
 
 import config
-from synth.base_synth import BaseSynthesizer
-from synth.score_writer import ScoreWriter
+from .base_synth import BaseSynthesizer
+from .score_writer import ScoreWriter
 
 
 class ClarinetSynthesizer(BaseSynthesizer):
@@ -19,6 +19,9 @@ class ClarinetSynthesizer(BaseSynthesizer):
         :param input_data:
         :return:
         """
+        if not isinstance(input_data, ScoreWriter):
+            raise TypeError("Input data must be of type ScoreWriter")
+
         chunk = None
         for freq, duration in input_data.get_score():
             if freq == 0:
@@ -41,6 +44,17 @@ class ClarinetSynthesizer(BaseSynthesizer):
         :param duration:
         :return:
         """
+        if not isinstance(freq, int) and not isinstance(freq, float):
+            raise TypeError("Frequency must be of type int or float")
+
+        if not isinstance(duration, int) and not isinstance(duration, float):
+            raise TypeError("Duration must be of type int or float")
+
+        if freq < 0:
+            raise ValueError("Frequency must be greater than or equals to 0")
+        if duration <= 0:
+            raise ValueError("Duration must be greater than 0")
+
         initial_sound = np.zeros((2, int(duration * config.SAMPLE_RATE)), dtype=np.float32)
         for i in range(self.square_factor):
             factor = (i * 2) + 1

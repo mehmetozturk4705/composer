@@ -35,4 +35,38 @@ class TestScoreWriter(unittest.TestCase):
         with self.assertRaises(ValueError):
             score_writer.write_note("A", 0, 0)
 
+        with self.assertRaises(TypeError):
+            score_writer.write_note("A", 0, "A")
 
+        with self.assertRaises(ValueError):
+            score_writer.write_rest(-1)
+
+        with self.assertRaises(TypeError):
+            score_writer.write_rest("A")
+
+        score_writer.clear_score()
+        self.assertEqual(score_writer.get_score(), [])
+
+        with self.assertRaises(TypeError):
+            score_writer.write_score_with_freq({"Sample"})
+
+        score_writer.write_score_with_freq([(440, 1)])
+        score_writer.write_score_with_freq([(440, 1)])
+
+        self.assertListEqual(score_writer.get_score(), [(440, 1)])
+
+        # Test write_score_with_freq validation
+        with self.assertRaises(ValueError):
+            score_writer.write_score_with_freq([(440, 1), (440, -1)])
+
+        with self.assertRaises(ValueError):
+            score_writer.write_score_with_freq([(440, 1), (440, 0)])
+
+        with self.assertRaises(ValueError):
+            score_writer.write_score_with_freq([(-1, 1),])
+
+        with self.assertRaises(TypeError):
+            score_writer.write_score_with_freq([(440, 1), ("A", 1)])
+
+        with self.assertRaises(TypeError):
+            score_writer.write_score_with_freq([(440, 1), (440, "A")])

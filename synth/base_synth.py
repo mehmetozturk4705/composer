@@ -1,8 +1,8 @@
 from typing import Generator
 
-from synth.param_config import ParamConfig
 import numpy as np
 
+from synth.param_config import ParamConfig
 from synth.score_writer import ScoreWriter
 
 
@@ -21,6 +21,8 @@ class BaseSynthesizer:
         raise NotImplementedError
 
     def set_config(self, config: ParamConfig):
+        if not isinstance(config, ParamConfig):
+            raise TypeError("config must be ParamConfig")
         self._config_param = config
 
     def get_config(self) -> ParamConfig:
