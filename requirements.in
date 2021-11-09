@@ -1,0 +1,5 @@
+pip-tools
+coverage
+numpy
+python-dotenv
+sounddevice

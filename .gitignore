@@ -1,0 +1,12 @@
+.coverage
+.DS_Store
+htmlcov
+pytest_cache
+venv
+.idea
+.vscode
+**/__pycache__
+wslenv
+tmp
+logs
+.python-version
